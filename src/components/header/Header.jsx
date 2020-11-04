@@ -3,6 +3,9 @@ import './header.style.scss';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
+  function getToken() {
+    return localStorage.getItem('token');
+  }
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -14,11 +17,19 @@ export default function Header() {
           <i className="fa fa-home mr-2"></i>
           Home
         </Link>
-
-        <Link className="option" to="/login">
-          <i className="fa fa-sign-in mr-2"></i>
-          Sign In
-        </Link>
+        {getToken() !== null ? (
+          <div
+            className="option"
+            onClick={() => localStorage.removeItem('token')}
+          >
+            Sign Out
+          </div>
+        ) : (
+          <Link className="option" to="/login">
+            <i className="fa fa-sign-in mr-2"></i>
+            Sign In
+          </Link>
+        )}
       </div>
     </div>
   );
