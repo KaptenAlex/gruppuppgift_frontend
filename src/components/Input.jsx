@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledInput = styled.input`
   margin-top: 20px;
@@ -9,13 +9,12 @@ const StyledInput = styled.input`
   border-radius: 4px;
   background-color: #f8f8f8;
   resize: none;
-`
+`;
 
-export default function Input() {
-    return (
-        <div>
-           <StyledInput type="text" placeholder="Email"></StyledInput> 
-           <StyledInput type="password" placeholder="Password"></StyledInput> 
-        </div>
-    )
+export default function Input({ onChange, ...otherProps }) {
+  return (
+    <div>
+      <StyledInput onChange={onChange} {...otherProps}></StyledInput>
+    </div>
+  );
 }
