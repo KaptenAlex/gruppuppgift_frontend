@@ -15,7 +15,7 @@ export default function Header() {
           Home
         </Link>
 
-        <Link className="option" to="/signin">
+        <Link className="option" to="/login">
           <i className="fa fa-sign-in mr-2"></i>
           Sign In
         </Link>
