@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 const StyledUserInformation = styled.div`
-    width 30%;
+    width max-content;
     padding: 30px;
     margin-left: auto;
     margin-right: 3%;
