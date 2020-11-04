@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledInput = styled.input`
-  margin: 25px;
-  padding: 5px 20px;
+  margin-top: 20px;
+  padding: 5px 11px;
   box-sizing: border-box;
   border: 2px solid #ccc;
   border-radius: 4px;
@@ -14,7 +14,8 @@ const StyledInput = styled.input`
 export default function Input() {
     return (
         <div>
-           <StyledInput></StyledInput> 
+           <StyledInput type="text" placeholder="Email"></StyledInput> 
+           <StyledInput type="password" placeholder="Password"></StyledInput> 
         </div>
     )
 }
