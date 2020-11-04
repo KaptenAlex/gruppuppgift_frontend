@@ -34,10 +34,15 @@ export default function CustomerList() {
     }
   }, []);
 
-  const renderedCustomer = customerList.map((customer) => {
+  const renderedCustomer = customerList.map((customer, index) => {
     return (
       <>
-        <CustomerDetail customer={customer} />
+        <tr>
+          <td>{index + 1}</td>
+          <td>{customer.name}</td>
+          <td>{customer.email}</td>
+          <td>{customer.phoneNumber}</td>
+        </tr>
       </>
     );
   });
@@ -54,13 +59,9 @@ export default function CustomerList() {
               <table className="table">
                 <thead>
                   <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Organisation Number</th>
-                    <th scope="col">Vat Number</th>
-                    <th scope="col">Reference</th>
-                    <th scope="col">PaymentTerm</th>
-                    <th scope="col">Website</th>
                     <th scope="col">Phone Number</th>
                   </tr>
                 </thead>

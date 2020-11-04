@@ -8,10 +8,10 @@ export default function Header() {
   }
   return (
     <div className="header">
-      <Link className="logo-container" to="/">
+      <div className="logo-container">
         <i className="fa fa-gift"></i>
         COOL-COMPANY
-      </Link>
+      </div>
       <div className="options">
         <Link className="option" to="/home">
           <i className="fa fa-home mr-2"></i>
