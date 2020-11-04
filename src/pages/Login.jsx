@@ -17,7 +17,7 @@ const StyledWindow = styled.div`
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const LOGIN_URL = `${ROOT_URL}api-token-auth/`;
 
-export default function Login() {
+export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -41,6 +41,7 @@ export default function Login() {
           console.log(data);
           localStorage.setItem('token', data.token);
           console.log(localStorage.getItem('token'));
+          props.history.push('/home');
         });
     } catch (err) {
       console.log(err);

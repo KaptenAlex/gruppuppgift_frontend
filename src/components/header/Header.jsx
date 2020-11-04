@@ -2,10 +2,7 @@ import React from 'react';
 import './header.style.scss';
 import { Link } from 'react-router-dom';
 
-export default function Header() {
-  function getToken() {
-    return localStorage.getItem('token');
-  }
+export default function Header({ isAuthenticated }) {
   return (
     <div className="header">
       <div className="logo-container">
@@ -17,7 +14,7 @@ export default function Header() {
           <i className="fa fa-home mr-2"></i>
           Home
         </Link>
-        {getToken() !== null ? (
+        {isAuthenticated ? (
           <div
             className="option"
             onClick={() => localStorage.removeItem('token')}

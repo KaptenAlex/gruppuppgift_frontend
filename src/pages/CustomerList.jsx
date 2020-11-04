@@ -36,14 +36,12 @@ export default function CustomerList() {
 
   const renderedCustomer = customerList.map((customer, index) => {
     return (
-      <>
-        <tr>
-          <td>{index + 1}</td>
-          <td>{customer.name}</td>
-          <td>{customer.email}</td>
-          <td>{customer.phoneNumber}</td>
-        </tr>
-      </>
+      <tr key={customer.id}>
+        <td>{index + 1}</td>
+        <td>{customer.name}</td>
+        <td>{customer.email}</td>
+        <td>{customer.phoneNumber}</td>
+      </tr>
     );
   });
   return (
