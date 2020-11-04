@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function CustomerList() {
-  return <div>CustomerList</div>;
+  return <div className="container">CustomerList</div>;
 }
