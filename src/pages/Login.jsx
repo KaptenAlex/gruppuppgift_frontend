@@ -35,14 +35,19 @@ export default function Login(props) {
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-        .then((res) => res.json())
-        .then((data) => {
+      }).then((res) => {
+        if (res.status !== 200) {
+          console.log(
+            'Looks like there was a problem. Status Code: ' + res.status
+          );
+          return;
+        }
+        res.json().then((data) => {
           console.log(data);
           localStorage.setItem('token', data.token);
-          console.log(localStorage.getItem('token'));
           props.history.push('/home');
         });
+      });
     } catch (err) {
       console.log(err);
     }
