@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Input from './../components/Input';
 import Title from './../components/Title';
 import Button from './../components/Button';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
+import UserContext from '../contexts/userContext';
 
 const StyledWindow = styled.div`
     width 30%;
@@ -25,6 +26,7 @@ export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
+  const { setToken } = useContext(UserContext);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -42,7 +44,6 @@ export default function Login(props) {
         },
       }).then((res) => {
         if (res.status !== 200) {
-          console.log(res);
           console.log(
             'Looks like there was a problem. Status Code: ' + res.status
           );
@@ -50,8 +51,8 @@ export default function Login(props) {
           return;
         }
         res.json().then((data) => {
-          console.log(data);
           localStorage.setItem('token', data.token);
+          setToken(data.token);
           props.history.push('/home');
         });
       });
