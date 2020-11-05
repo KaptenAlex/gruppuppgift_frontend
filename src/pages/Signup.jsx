@@ -26,6 +26,7 @@ export default function Signup() {
   const [organisationName, setOrganisationName] = useState('');
   const [organisationKind] = useState(0);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [successMsg, setSccessMsg] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -51,11 +52,18 @@ export default function Signup() {
         },
       }).then((res) => {
         console.log(res);
-        if (res.status !== 200) {
+        if (res.status !== 201) {
           return;
         }
         res.json().then((data) => {
           console.log(data);
+          setSccessMsg('User Created!');
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+          setOrganisationName('');
         });
       });
     } catch (err) {
@@ -69,6 +77,12 @@ export default function Signup() {
         {errorMsg && (
           <div className="alert alert-danger mb-3" role="alert">
             {errorMsg}{' '}
+          </div>
+        )}
+
+        {successMsg && (
+          <div className="alert alert-success mb-3" role="alert">
+            {successMsg}{' '}
           </div>
         )}
         <Input

@@ -34,7 +34,6 @@ export default function Login(props) {
       email,
       password,
     };
-    console.log(payload);
     try {
       fetch(LOGIN_URL, {
         method: 'POST',
@@ -85,6 +84,7 @@ export default function Login(props) {
           'Content-Type': 'application/json',
         },
       }).then((res) => {
+        console.log(res);
         if (res.status !== 201) {
           console.log(res);
           console.log(
