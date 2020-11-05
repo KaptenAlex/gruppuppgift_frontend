@@ -20,6 +20,7 @@ const LOGIN_URL = `${ROOT_URL}api-token-auth/`;
 export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState(null);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -37,9 +38,11 @@ export default function Login(props) {
         },
       }).then((res) => {
         if (res.status !== 200) {
+          console.log(res);
           console.log(
             'Looks like there was a problem. Status Code: ' + res.status
           );
+          setErrorMsg('Invalid credentials.');
           return;
         }
         res.json().then((data) => {
@@ -59,6 +62,13 @@ export default function Login(props) {
     <StyledWindow>
       <form onSubmit={handleSubmit}>
         <Title />
+
+        {errorMsg && (
+          <div className="alert alert-danger mb-3" role="alert">
+            {errorMsg}{' '}
+          </div>
+        )}
+
         <Input
           type="text"
           name="email"
