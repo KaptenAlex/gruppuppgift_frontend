@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import CustomerList from './pages/CustomerList';
 import Login from './pages/Login';
+import CustomerCreate from './pages/CustomerCreate';
+
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
       <Switch>
         <Route path="/home" component={CustomerList}></Route>
         <Route path="/login" component={Login}></Route>
+        <Route path="/create" component={CustomerCreate} />
       </Switch>
     </div>
   );
