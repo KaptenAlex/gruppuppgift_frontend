@@ -4,18 +4,23 @@ import Header from './components/header/Header';
 import CustomerList from './pages/CustomerList';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
+import Signup from './pages/Signup';
 
 function App() {
   const isAuthenticated = localStorage.getItem('token');
-  console.log(isAuthenticated);
-
   useEffect(() => {}, [isAuthenticated]);
   return (
     <div className="App">
       <Header isAuthenticated={isAuthenticated} />
       <Switch>
         <ProtectedRoute path="/home" component={CustomerList}></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/"
+          component={CustomerList}
+        ></ProtectedRoute>
         <Route path="/login" component={Login}></Route>
+        <Route path="/signup" component={Signup}></Route>
       </Switch>
     </div>
   );

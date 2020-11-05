@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './../components/Input';
 import Title from './../components/Title';
 import Button from './../components/Button';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import queryString from 'query-string';
 
 const StyledWindow = styled.div`
     width 30%;
@@ -16,8 +18,10 @@ const StyledWindow = styled.div`
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const LOGIN_URL = `${ROOT_URL}api-token-auth/`;
+const ACTIVATE_URL = `${ROOT_URL}auth/users/activate/`;
 
 export default function Login(props) {
+  console.log(props);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
@@ -58,10 +62,51 @@ export default function Login(props) {
     setPassword('');
   }
 
+  function activateAccount() {
+    if (props.location.search !== '') {
+      let params = queryString.parse(props.location.search);
+      console.log(params);
+      fetchActivateAccount(params.uid, params.token);
+    }
+    return;
+  }
+  function fetchActivateAccount(uid, token) {
+    console.log(uid, token);
+    const payload = {
+      uid,
+      token,
+    };
+    try {
+      fetch(ACTIVATE_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((res) => {
+        if (res.status !== 201) {
+          console.log(res);
+          console.log(
+            'Looks like there was a problem. Status Code: ' + res.status
+          );
+          return;
+        }
+        res.json().then((data) => {
+          props.history.push('/login');
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    activateAccount();
+  }, []);
   return (
     <StyledWindow>
       <form onSubmit={handleSubmit}>
-        <Title />
+        <Title title="Log in" />
 
         {errorMsg && (
           <div className="alert alert-danger mb-3" role="alert">
@@ -86,6 +131,9 @@ export default function Login(props) {
           required
         />
         <Button type="submit" />
+        <Link to="/signup">
+          <p>I do not have an account</p>
+        </Link>
       </form>
     </StyledWindow>
   );
