@@ -27,10 +27,7 @@ function App() {
           ></ProtectedRoute>
           <Route path="/login" component={Login}></Route>
           <Route path="/signup" component={Signup}></Route>
-          <ProtectedRoute
-            path="/create"
-            component={CustomerCreate}
-          ></ProtectedRoute>
+          <Route path="/create" component={CustomerCreate}></Route>
         </Switch>
       </UserContext.Provider>
     </div>

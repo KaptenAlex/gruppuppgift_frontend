@@ -54,7 +54,7 @@ export default function Login(props) {
         }
         res.json().then((data) => {
           userDataKit.setSessionToken(data.token);
-          setToken(data.token);
+          setToken(userDataKit.getSessionToken(data.token));
           props.history.push('/home');
         });
       });
