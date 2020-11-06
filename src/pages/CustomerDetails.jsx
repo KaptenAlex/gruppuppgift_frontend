@@ -9,10 +9,10 @@ export const CustomerDetails = (props) => {
   const ID = props.match.params.id;
 
   const ROOT_URL = "https://frebi.willandskill.eu/";
-  const API_URL = `${ROOT_URL}api/v1/customers/${ID}`;
+  const API_URL = `${ROOT_URL}api/v1/customers/${ID}/`;
   const userDataKit = new UserDatakit();
 
-  function fetchCustomerDetails() {
+  function fetchCustomerDetails(id) {
     fetch(API_URL, {
       headers: {
         "Content-Type": "application/json",
@@ -21,8 +21,7 @@ export const CustomerDetails = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.results);
-        setCustomerData(data.results);
+        setCustomerData(data);
       });
   }
 
@@ -45,45 +44,42 @@ export const CustomerDetails = (props) => {
 
           <div className="card-body">
             <table className="table table-bordered table-striped">
-              {customerData &&
-                customerData.map((customer, index) => {
-                  return (
-                    <tbody key={index}>
-                      <tr>
-                        <th>Name</th>
-                        <td>{customer.name}</td>
-                      </tr>
-                      <tr>
-                        <th>Organisation number</th>
-                        <td>{customer.organisationNr}</td>
-                      </tr>
-                      <tr>
-                        <th>VAT number</th>
-                        <td>{customer.name}</td>
-                      </tr>
-                      <tr>
-                        <th>Reference</th>
-                        <td>{customer.reference}</td>
-                      </tr>
-                      <tr>
-                        <th>Payment term</th>
-                        <td>{customer.paymentTerm}</td>
-                      </tr>
-                      <tr>
-                        <th>Website</th>
-                        <td>{customer.website}</td>
-                      </tr>
-                      <tr>
-                        <th>Email</th>
-                        <td>{customer.email}</td>
-                      </tr>
-                      <tr>
-                        <th>Phone number</th>
-                        <td>{customer.phoneNumber}</td>
-                      </tr>
-                    </tbody>
-                  );
-                })}
+              {customerData && (
+                <tbody>
+                  <tr>
+                    <th>Name</th>
+                    <td>{customerData.name}</td>
+                  </tr>
+                  <tr>
+                    <th>Organisation number</th>
+                    <td>{customerData.organisationNr}</td>
+                  </tr>
+                  <tr>
+                    <th>VAT number</th>
+                    <td>{customerData.name}</td>
+                  </tr>
+                  <tr>
+                    <th>Reference</th>
+                    <td>{customerData.reference}</td>
+                  </tr>
+                  <tr>
+                    <th>Payment term</th>
+                    <td>{customerData.paymentTerm}</td>
+                  </tr>
+                  <tr>
+                    <th>Website</th>
+                    <td>{customerData.website}</td>
+                  </tr>
+                  <tr>
+                    <th>Email</th>
+                    <td>{customerData.email}</td>
+                  </tr>
+                  <tr>
+                    <th>Phone number</th>
+                    <td>{customerData.phoneNumber}</td>
+                  </tr>
+                </tbody>
+              )}
             </table>
           </div>
         </div>
