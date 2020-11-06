@@ -44,7 +44,9 @@ export default function CustomerList() {
         <td>{customer.name}</td>
         <td>{customer.email}</td>
         <td>{customer.phoneNumber}</td>
-        <td><Link to={`/show/${customer.id}`}>View</Link></td>
+        <td>
+          <Link to={`/show/${customer.id}`}>View</Link>
+        </td>
       </tr>
     );
   });
@@ -71,6 +73,7 @@ export default function CustomerList() {
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
                       <th scope="col">Phone Number</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>{renderedCustomer}</tbody>
