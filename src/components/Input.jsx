@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledInput = styled.input`
   width: 100%;
-  margin-top: 20px;
+  margin-top: ${(props) => props.marginTop || '20px'};
   padding: 5px 11px;
   box-sizing: border-box;
   border: 2px solid #ccc;

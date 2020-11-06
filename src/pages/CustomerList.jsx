@@ -24,9 +24,7 @@ export default function CustomerList() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.results);
         setCustomerList(data.results);
-        console.log(customerList);
         setLoading(true);
       });
   }

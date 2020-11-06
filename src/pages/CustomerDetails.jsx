@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import UserDatakit from '../data/UserDatakit';
 import Button from './../components/Button';
 import Modal from 'react-bootstrap/Modal';
+import Input from '../components/Input';
 import Spinner from 'react-bootstrap/Spinner';
 
 export const CustomerDetails = (props) => {
   const [customerData, setCustomerData] = useState(null);
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [successMsg, setSccessMsg] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -47,6 +50,43 @@ export const CustomerDetails = (props) => {
     });
   }
 
+  function editCustomer() {
+    const payload = {
+      name: customerData.name,
+      organisationNr: customerData.organisationNr,
+      vatNr: customerData.vatNr,
+      reference: customerData.reference,
+      paymentTerm: customerData.paymentTerm,
+      website: customerData.website,
+      email: customerData.email,
+      phoneNumber: customerData.phoneNumber,
+    };
+    console.log(payload);
+
+    fetch(API_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userDataKit.getSessionToken()}`,
+      },
+      body: JSON.stringify(payload),
+    }).then((res) => {
+      if (res.status === 200) {
+        setEdit(false);
+        setSccessMsg('User Edited');
+      }
+      return;
+    });
+  }
+
+  function handleChange(e) {
+    const value = e.target.value;
+    setCustomerData({
+      ...customerData,
+      [e.target.name]: value,
+    });
+  }
+
   useEffect(() => {
     fetchCustomerDetails();
   }, []);
@@ -54,14 +94,40 @@ export const CustomerDetails = (props) => {
   return (
     <>
       <div className="container">
+        {successMsg && (
+          <div className="alert alert-success mb-3" role="alert">
+            {successMsg}{' '}
+          </div>
+        )}
         {loading ? (
           <>
             <div className="row  justify-content-end mr-2">
-              <Button
-                onClick={handleShow}
-                btnText="Delete"
-                bgColor="red"
-              ></Button>
+              {edit ? (
+                <>
+                  {' '}
+                  <Button
+                    onClick={() => setEdit(false)}
+                    btnText="Cancel"
+                    bgColor="#6c757d"
+                    className="mr-3"
+                  ></Button>
+                  <Button onClick={editCustomer} btnText="Save"></Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={() => setEdit(true)}
+                    btnText="Edit"
+                    bgColor="#3b8db4"
+                    className="mr-3"
+                  ></Button>
+                  <Button
+                    onClick={handleShow}
+                    btnText="Delete"
+                    bgColor="#bb3129"
+                  ></Button>
+                </>
+              )}
             </div>
             <div className="card mt-3">
               <div className="card-header">Customer Details</div>
@@ -73,35 +139,123 @@ export const CustomerDetails = (props) => {
                       <tbody key={customerData.id}>
                         <tr>
                           <th>Name</th>
-                          <td>{customerData.name}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="name"
+                                value={customerData.name}
+                                onChange={handleChange}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.name}</td>
+                          )}
                         </tr>
                         <tr>
                           <th>Organisation number</th>
-                          <td>{customerData.organisationNr}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="organisationNr"
+                                onChange={handleChange}
+                                value={customerData.organisationNr}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.organisationNr}</td>
+                          )}
                         </tr>
                         <tr>
                           <th>VAT number</th>
-                          <td>{customerData.vatNr}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="vatNr"
+                                onChange={handleChange}
+                                value={customerData.vatNr}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.vatNr}</td>
+                          )}
                         </tr>
                         <tr>
                           <th>Reference</th>
-                          <td>{customerData.reference}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="reference"
+                                onChange={handleChange}
+                                value={customerData.reference}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.reference}</td>
+                          )}
                         </tr>
                         <tr>
                           <th>Payment term</th>
-                          <td>{customerData.paymentTerm}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="paymentTerm"
+                                onChange={handleChange}
+                                value={customerData.paymentTerm}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.paymentTerm}</td>
+                          )}
                         </tr>
                         <tr>
                           <th>Website</th>
-                          <td>{customerData.website}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="website"
+                                onChange={handleChange}
+                                value={customerData.website}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.website}</td>
+                          )}
                         </tr>
                         <tr>
                           <th>Email</th>
-                          <td>{customerData.email}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="email"
+                                onChange={handleChange}
+                                value={customerData.email}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.email}</td>
+                          )}
                         </tr>
                         <tr>
                           <th>Phone number</th>
-                          <td>{customerData.phoneNumber}</td>
+                          {edit ? (
+                            <td>
+                              <Input
+                                marginTop="0px"
+                                name="phoneNumber"
+                                onChange={handleChange}
+                                value={customerData.phoneNumber}
+                              ></Input>
+                            </td>
+                          ) : (
+                            <td>{customerData.phoneNumber}</td>
+                          )}
                         </tr>
                       </tbody>
                     </>
