@@ -41,6 +41,7 @@ export default function CustomerList() {
         <td>{customer.name}</td>
         <td>{customer.email}</td>
         <td>{customer.phoneNumber}</td>
+        <td><Link to={`/show/${customer.id}`}>View</Link></td>
       </tr>
     );
   });
