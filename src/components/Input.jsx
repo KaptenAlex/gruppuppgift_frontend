@@ -10,12 +10,17 @@ const StyledInput = styled.input`
   border-radius: 4px;
   background-color: #f8f8f8;
   resize: none;
-`
+`;
 
 export default function Input({ onChange, ...otherProps }, props) {
   return (
     <div>
-      <StyledInput margin={props.margin} placeholder={props.placerholder} onChange={onChange} {...otherProps}></StyledInput>
+      <StyledInput
+        margin={props.margin}
+        placeholder={props.placerholder}
+        onChange={onChange}
+        {...otherProps}
+      ></StyledInput>
     </div>
   );
 }

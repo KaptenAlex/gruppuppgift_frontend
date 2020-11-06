@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import UserDatakit from "../data/UserDatakit";
-import Button from "./../components/Button";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import UserDatakit from '../data/UserDatakit';
+import Button from './../components/Button';
+import { Link } from 'react-router-dom';
 
 export const CustomerDetails = (props) => {
   const [customerData, setCustomerData] = useState(null);
@@ -15,7 +15,7 @@ export const CustomerDetails = (props) => {
   function fetchCustomerDetails(id) {
     fetch(API_URL, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userDataKit.getSessionToken()}`,
       },
     })
@@ -23,6 +23,18 @@ export const CustomerDetails = (props) => {
       .then((data) => {
         setCustomerData(data);
       });
+  }
+  function deleteCustomer() {
+    console.log('click');
+    fetch(API_URL, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userDataKit.getSessionToken()}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   }
 
   useEffect(() => {
@@ -32,12 +44,15 @@ export const CustomerDetails = (props) => {
   return (
     <>
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12">
-            <Link to="/">
-              <Button btnText="Customers list"></Button>
-            </Link>
-          </div>
+        <div className="row justify-content-between mr-1 ml-1">
+          <Link to="/">
+            <Button btnText="Customers List"></Button>
+          </Link>
+          <Button
+            onclick={deleteCustomer}
+            btnText="Delete"
+            bgColor="red"
+          ></Button>
         </div>
         <div className="card mt-3">
           <div className="card-header">Customer Details</div>

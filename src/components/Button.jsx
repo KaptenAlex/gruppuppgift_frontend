@@ -15,6 +15,6 @@ const StyledButton = styled.button`
     width:${(props) => props.width}
 `;
 
-export default function Button(props) {
-  return <StyledButton width={props.width}>{props.btnText}</StyledButton>;
+export default function Button({ ...otherProps }) {
+  return <StyledButton {...otherProps}>{otherProps.btnText}</StyledButton>;
 }
