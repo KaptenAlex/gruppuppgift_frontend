@@ -131,7 +131,7 @@ export default function Login(props) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <Button type="submit" />
+        <Button type="submit" btnText="Log in" bgColor="#4CAF50" />
         <Link to="/signup">
           <p>I do not have an account</p>
         </Link>

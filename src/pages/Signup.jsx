@@ -134,7 +134,7 @@ export default function Signup() {
           required
         />
         <div className="text-center">
-          <Button type="submit" />
+          <Button type="submit" btnText="Sign up" />
           <Link to="/login">
             <p className="mt-3">I already have an account</p>
           </Link>
