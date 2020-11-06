@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import CustomerDetail from '../components/CustomerDetail';
 import SignedInUser from '../components/SignedInUser';
 import Title from './../components/Title';
 import Button from './../components/Button';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
+import UserDatakit from '../data/UserDatakit';
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const API_URL = `${ROOT_URL}api/v1/`;
@@ -12,17 +12,14 @@ const API_URL = `${ROOT_URL}api/v1/`;
 export default function CustomerList() {
   const [customerList, setCustomerList] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  function getToken() {
-    return localStorage.getItem('token');
-  }
+  const userDataKit = new UserDatakit();
 
   function getCustomerList() {
     const url = `${API_URL}customers`;
     return fetch(url, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${userDataKit.getSessionToken()}`,
       },
     })
       .then((res) => res.json())
@@ -34,7 +31,7 @@ export default function CustomerList() {
   }
 
   useEffect(() => {
-    if (getToken() !== null) {
+    if (userDataKit.getSessionToken() !== null) {
       getCustomerList();
     }
   }, []);
