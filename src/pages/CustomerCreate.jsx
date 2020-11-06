@@ -4,9 +4,11 @@ import Input from './../components/Input';
 import styled from 'styled-components';
 import Button from './../components/Button';
 import Description from './../components/DescText';
+import UserDatakit from '../data/UserDatakit';
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const CREATE_CUSTOMER_URL = `${ROOT_URL}api/v1/customers/`;
+const userDataKit = new UserDatakit();
 
 const StyledContainer = styled.div`
     width 50%;
@@ -17,6 +19,8 @@ const StyledContainer = styled.div`
 `;
 
 export default function CustomerCreate(props) {
+
+  const [validVatNr, setValidVatNr] = useState(true);
   const [info, setInfo] = useState({
     name: '',
     organisationNr: '',
@@ -38,6 +42,14 @@ export default function CustomerCreate(props) {
 
   function createCustomer(event) {
     event.preventDefault();
+    const controlVatNrInputRegExp = /(SE)\d{10}$/;
+
+    if (controlVatNrInputRegExp.test(info.vatNr) == false) {
+      setValidVatNr(false)
+      return;
+    } else {
+      setValidVatNr(true)
+    }
 
     const payload = {
       name: info.name,
@@ -50,8 +62,9 @@ export default function CustomerCreate(props) {
       phoneNumber: info.phoneNumber,
     };
     console.log(payload);
+
     try {
-      let bearer = 'Bearer ' + localStorage.getItem('token');
+      let bearer = 'Bearer ' + userDataKit.getSessionToken();
       console.log(bearer);
       fetch(CREATE_CUSTOMER_URL, {
         method: 'POST',
@@ -155,6 +168,13 @@ export default function CustomerCreate(props) {
               type="text"
             />
           </div>
+          {!validVatNr &&
+            <div className="row justify-content-center pt-2">
+              <div className="alert alert-danger">
+                VatNr must start with "SE" and end with 10 digits
+              </div>
+            </div>
+          }
         </StyledContainer>
 
         <Button btnText="Create" width="50%" color="" />
