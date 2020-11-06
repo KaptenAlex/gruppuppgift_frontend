@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Input from './../components/Input';
 import Title from './../components/Title';
 import Button from './../components/Button';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import queryString from 'query-string';
+import UserContext from '../contexts/userContext';
 
 const StyledWindow = styled.div`
     width 30%;
@@ -17,10 +20,14 @@ const StyledWindow = styled.div`
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const LOGIN_URL = `${ROOT_URL}api-token-auth/`;
+const ACTIVATE_URL = `${ROOT_URL}auth/users/activate/`;
 
-export default function Login() {
+export default function Login(props) {
+  console.log(props);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState(null);
+  const { setToken } = useContext(UserContext);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -28,7 +35,6 @@ export default function Login() {
       email,
       password,
     };
-    console.log(payload);
     try {
       fetch(LOGIN_URL, {
         method: 'POST',
@@ -36,13 +42,20 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
+      }).then((res) => {
+        if (res.status !== 200) {
+          console.log(
+            'Looks like there was a problem. Status Code: ' + res.status
+          );
+          setErrorMsg('Invalid credentials.');
+          return;
+        }
+        res.json().then((data) => {
           localStorage.setItem('token', data.token);
-          console.log(localStorage.getItem('token'));
+          setToken(data.token);
+          props.history.push('/home');
         });
+      });
     } catch (err) {
       console.log(err);
     }
@@ -50,37 +63,80 @@ export default function Login() {
     setPassword('');
   }
 
+  function activateAccount() {
+    if (props.location.search !== '') {
+      let params = queryString.parse(props.location.search);
+      console.log(params);
+      fetchActivateAccount(params.uid, params.token);
+    }
+    return;
+  }
+  function fetchActivateAccount(uid, token) {
+    console.log(uid, token);
+    const payload = {
+      uid,
+      token,
+    };
+    try {
+      fetch(ACTIVATE_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((res) => {
+        console.log(res);
+        if (res.status !== 201) {
+          console.log(res);
+          console.log(
+            'Looks like there was a problem. Status Code: ' + res.status
+          );
+          return;
+        }
+        res.json().then((data) => {
+          props.history.push('/login');
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    activateAccount();
+  }, []);
   return (
-      <div className="container">
-        <StyledWindow>
-        <form onSubmit={handleSubmit}>
-            <Title 
-                title="Login"
-            />
-            <Input
-            placeholder="Name"
-            type="text"
-            name="email"
-            value={email}
-            label="email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            />
-            <Input
-            placeholder="Email"
-            type="password"
-            name="password"
-            label="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            />
-            <Button 
-            btnText="login"
-            type="submit" 
-            />
-        </form>
-        </StyledWindow>
-    </div>
+    <StyledWindow>
+      <form onSubmit={handleSubmit}>
+        <Title title="Log in" />
+
+        {errorMsg && (
+          <div className="alert alert-danger mb-3" role="alert">
+            {errorMsg}{' '}
+          </div>
+        )}
+
+        <Input
+          type="text"
+          name="email"
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <Button type="submit" btnText="Log in" bgColor="#4CAF50" />
+        <Link to="/signup">
+          <p>I do not have an account</p>
+        </Link>
+      </form>
+    </StyledWindow>
   );
 }
