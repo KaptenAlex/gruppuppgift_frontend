@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledTitle = styled.title`
-    font-size: 4rem;
+const StyledTitle = styled.header`
+    font-size: 3rem;
+    font-family: arial
 `
 
-export default function Title() {
+export default function Title(props) {
     return (
-       <h2 className={styled.title}>Login</h2>
+       <StyledTitle>{props.title}</StyledTitle>
     )
 }

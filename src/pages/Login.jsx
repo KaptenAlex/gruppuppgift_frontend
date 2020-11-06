@@ -9,9 +9,10 @@ const StyledWindow = styled.div`
     padding: 30px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20vh;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display:flex;
+    justify-content: center;
 `;
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
@@ -50,27 +51,36 @@ export default function Login() {
   }
 
   return (
-    <StyledWindow>
-      <form onSubmit={handleSubmit}>
-        <Title />
-        <Input
-          type="text"
-          name="email"
-          value={email}
-          label="email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          name="password"
-          label="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <Button type="submit" />
-      </form>
-    </StyledWindow>
+      <div className="container">
+        <StyledWindow>
+        <form onSubmit={handleSubmit}>
+            <Title 
+                title="Login"
+            />
+            <Input
+            placeholder="Name"
+            type="text"
+            name="email"
+            value={email}
+            label="email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            />
+            <Input
+            placeholder="Email"
+            type="password"
+            name="password"
+            label="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            />
+            <Button 
+            btnText="login"
+            type="submit" 
+            />
+        </form>
+        </StyledWindow>
+    </div>
   );
 }

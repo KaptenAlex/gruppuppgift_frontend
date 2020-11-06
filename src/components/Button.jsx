@@ -12,8 +12,9 @@ const StyledButton = styled.button`
     font-size: 16px;
     border-radius: 5px;
     margin-top 25px;
+    width:${(props) => props.width}
 `;
 
-export default function Button() {
-  return <StyledButton>Login</StyledButton>;
+export default function Button(props) {
+  return <StyledButton width={props.width}>{props.btnText}</StyledButton>;
 }
