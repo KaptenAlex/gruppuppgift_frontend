@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import UserContext from '../contexts/userContext';
+import UserDatakit from '../data/UserDatakit';
 
 const StyledWindow = styled.div`
     width 30%;
@@ -21,6 +22,7 @@ const StyledWindow = styled.div`
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const LOGIN_URL = `${ROOT_URL}api-token-auth/`;
 const ACTIVATE_URL = `${ROOT_URL}auth/users/activate/`;
+const userDataKit = new UserDatakit();
 
 export default function Login(props) {
   console.log(props);

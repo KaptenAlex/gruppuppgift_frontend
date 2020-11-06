@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import UserDatakit from '../data/UserDatakit';
 import SignedInContainer from './SignedInContainer';
 
 export default function SignedInUser() {
@@ -7,8 +8,10 @@ export default function SignedInUser() {
     const ROOT_URL = 'https://frebi.willandskill.eu/';
     const ME_URL = `${ROOT_URL}api/v1/me`;
 
+    const userDataKit = new UserDatakit();
+
     useEffect(() => {
-        if (localStorage.getItem('token') !== null) {
+        if (userDataKit.getSessionToken() !== null) {
             fetchSignedInUser();
         }
     }, [])
@@ -18,12 +21,11 @@ export default function SignedInUser() {
     function fetchSignedInUser() {
         fetch(ME_URL, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${userDataKit.getSessionToken()}`
             }
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setSignedInUser(data);
             })
     }
