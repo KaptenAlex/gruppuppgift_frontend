@@ -7,6 +7,7 @@ import CustomerCreate from './pages/CustomerCreate';
 import ProtectedRoute from './components/ProtectedRoute';
 import Signup from './pages/Signup';
 import UserContext from './contexts/userContext';
+import { CustomerDetails } from './pages/CustomerDetails';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" component={Login}></Route>
           <Route path="/signup" component={Signup}></Route>
           <Route path="/create" component={CustomerCreate}></Route>
+          <Route path="/show/:id" component={CustomerDetails}></Route>
         </Switch>
       </UserContext.Provider>
     </div>
