@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import UserDatakit from '../data/UserDatakit';
 import Button from './../components/Button';
-import { Link } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
 
 export const CustomerDetails = (props) => {
   const [customerData, setCustomerData] = useState(null);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const ID = props.match.params.id;
 
@@ -33,9 +37,13 @@ export const CustomerDetails = (props) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${userDataKit.getSessionToken()}`,
       },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    }).then((res) => {
+      if (res.status === 204) {
+        setShow(false);
+        props.history.push('/home');
+      }
+      return;
+    });
   }
 
   useEffect(() => {
@@ -46,11 +54,7 @@ export const CustomerDetails = (props) => {
     <>
       <div className="container">
         <div className="row  justify-content-end mr-2">
-          <Button
-            onclick={deleteCustomer}
-            btnText="Delete"
-            bgColor="red"
-          ></Button>
+          <Button onClick={handleShow} btnText="Delete" bgColor="red"></Button>
         </div>
         <div className="card mt-3">
           <div className="card-header">Customer Details</div>
@@ -70,7 +74,7 @@ export const CustomerDetails = (props) => {
                     </tr>
                     <tr>
                       <th>VAT number</th>
-                      <td>{customerData.name}</td>
+                      <td>{customerData.vatNr}</td>
                     </tr>
                     <tr>
                       <th>Reference</th>
@@ -99,6 +103,21 @@ export const CustomerDetails = (props) => {
           </div>
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Customer</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete?</Modal.Body>
+        <Modal.Footer>
+          <Button btnText="No" bgColor="#6c757d" onClick={handleClose}></Button>
+          <Button
+            btnText="Delete"
+            bgColor="red"
+            onClick={deleteCustomer}
+          ></Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
