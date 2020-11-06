@@ -61,11 +61,9 @@ export default function CustomerCreate(props) {
       email: info.email,
       phoneNumber: info.phoneNumber,
     };
-    console.log(payload);
 
     try {
       let bearer = 'Bearer ' + userDataKit.getSessionToken();
-      console.log(bearer);
       fetch(CREATE_CUSTOMER_URL, {
         method: 'POST',
         body: JSON.stringify(payload),
