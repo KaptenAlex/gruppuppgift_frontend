@@ -3,6 +3,7 @@ import Input from './../components/Input';
 import Title from './../components/Title';
 import Button from './../components/Button';
 import styled from 'styled-components';
+import UserDatakit from '../data/UserDatakit';
 
 const StyledWindow = styled.div`
     width 30%;
@@ -16,6 +17,7 @@ const StyledWindow = styled.div`
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const LOGIN_URL = `${ROOT_URL}api-token-auth/`;
+const userDataKit = new UserDatakit();
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -27,7 +29,6 @@ export default function Login() {
       email,
       password,
     };
-    console.log(payload);
     try {
       fetch(LOGIN_URL, {
         method: 'POST',
@@ -38,9 +39,7 @@ export default function Login() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          localStorage.setItem('token', data.token);
-          console.log(localStorage.getItem('token'));
+          userDataKit.setSessionToken(data.token);
         });
     } catch (err) {
       console.log(err);
