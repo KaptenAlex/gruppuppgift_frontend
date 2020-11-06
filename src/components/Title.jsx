@@ -6,6 +6,6 @@ const StyledTitle = styled.header`
   font-family: arial;
 `;
 
-export default function Title(props) {
-  return <StyledTitle>{props.title}</StyledTitle>;
+export default function Title({ ...props }) {
+  return <StyledTitle {...props}>{props.title}</StyledTitle>;
 }

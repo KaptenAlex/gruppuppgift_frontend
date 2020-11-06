@@ -9,11 +9,13 @@ const ROOT_URL = 'https://frebi.willandskill.eu/';
 const CREATE_CUSTOMER_URL = `${ROOT_URL}api/v1/customers/`;
 
 const StyledContainer = styled.div`
-    width 50%;
+    width 60%;
     padding: 30px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
 `;
 
 export default function CustomerCreate(props) {
@@ -83,8 +85,8 @@ export default function CustomerCreate(props) {
 
   return (
     <div className="container">
-      <Title title="Create Customer" />
       <form onSubmit={createCustomer}>
+        <Title className="ml-5" title="Create Customer" />
         <StyledContainer>
           <Description paragraph="Fill in the fields in order to create a new customer" />
           <div className="row justify-content-center">
@@ -95,6 +97,7 @@ export default function CustomerCreate(props) {
               name="name"
               onChange={handleChange}
               type="text"
+              margin="1rem"
             />
             <Input
               placeholder="Organisation Number"
@@ -156,8 +159,9 @@ export default function CustomerCreate(props) {
             />
           </div>
         </StyledContainer>
-
-        <Button btnText="Create" width="50%" color="" />
+        <div className="text-center mb-5">
+          <Button btnText="Create" width="50%" color="" />
+        </div>
       </form>
     </div>
   );
