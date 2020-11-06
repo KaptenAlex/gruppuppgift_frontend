@@ -4,9 +4,11 @@ import Input from './../components/Input';
 import styled from 'styled-components';
 import Button from './../components/Button';
 import Description from './../components/DescText';
+import UserDatakit from '../data/UserDatakit';
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const CREATE_CUSTOMER_URL = `${ROOT_URL}api/v1/customers/`;
+const userDataKit = new UserDatakit();
 
 const StyledContainer = styled.div`
     width 60%;
@@ -19,6 +21,8 @@ const StyledContainer = styled.div`
 `;
 
 export default function CustomerCreate(props) {
+
+  const [validVatNr, setValidVatNr] = useState(true);
   const [info, setInfo] = useState({
     name: '',
     organisationNr: '',
@@ -40,6 +44,14 @@ export default function CustomerCreate(props) {
 
   function createCustomer(event) {
     event.preventDefault();
+    const controlVatNrInputRegExp = /(SE)\d{10}$/;
+
+    if (controlVatNrInputRegExp.test(info.vatNr) == false) {
+      setValidVatNr(false)
+      return;
+    } else {
+      setValidVatNr(true)
+    }
 
     const payload = {
       name: info.name,
@@ -51,10 +63,9 @@ export default function CustomerCreate(props) {
       email: info.email,
       phoneNumber: info.phoneNumber,
     };
-    console.log(payload);
+
     try {
-      let bearer = 'Bearer ' + localStorage.getItem('token');
-      console.log(bearer);
+      let bearer = 'Bearer ' + userDataKit.getSessionToken();
       fetch(CREATE_CUSTOMER_URL, {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -158,6 +169,13 @@ export default function CustomerCreate(props) {
               type="text"
             />
           </div>
+          {!validVatNr &&
+            <div className="row justify-content-center pt-2">
+              <div className="alert alert-danger">
+                VatNr must start with "SE" and end with 10 digits
+              </div>
+            </div>
+          }
         </StyledContainer>
         <div className="text-center mb-5">
           <Button btnText="Create" width="50%" color="" />
