@@ -16,7 +16,7 @@ export const CustomerDetails = (props) => {
   const API_URL = `${ROOT_URL}api/v1/customers/${ID}/`;
   const userDataKit = new UserDatakit();
 
-  function fetchCustomerDetails() {
+  function fetchCustomerDetails(id) {
     fetch(API_URL, {
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +25,6 @@ export const CustomerDetails = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setCustomerData(data);
       });
   }
@@ -112,8 +111,8 @@ export const CustomerDetails = (props) => {
         <Modal.Footer>
           <Button btnText="No" bgColor="#6c757d" onClick={handleClose}></Button>
           <Button
-            btnText="Delete"
-            bgColor="red"
+            btnText="Yes"
+            bgColor="#007bff"
             onClick={deleteCustomer}
           ></Button>
         </Modal.Footer>
