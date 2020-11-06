@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import UserDatakit from '../data/UserDatakit';
 import Button from './../components/Button';
 import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
 
 export const CustomerDetails = (props) => {
   const [customerData, setCustomerData] = useState(null);
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -26,10 +28,10 @@ export const CustomerDetails = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setCustomerData(data);
+        setLoading(true);
       });
   }
   function deleteCustomer() {
-    console.log('click');
     fetch(API_URL, {
       method: 'DELETE',
       headers: {
@@ -52,55 +54,68 @@ export const CustomerDetails = (props) => {
   return (
     <>
       <div className="container">
-        <div className="row  justify-content-end mr-2">
-          <Button onClick={handleShow} btnText="Delete" bgColor="red"></Button>
-        </div>
-        <div className="card mt-3">
-          <div className="card-header">Customer Details</div>
+        {loading ? (
+          <>
+            <div className="row  justify-content-end mr-2">
+              <Button
+                onClick={handleShow}
+                btnText="Delete"
+                bgColor="red"
+              ></Button>
+            </div>
+            <div className="card mt-3">
+              <div className="card-header">Customer Details</div>
 
-          <div className="card-body">
-            <table className="table table-bordered table-striped">
-              {customerData && (
-                <>
-                  <tbody key={customerData.id}>
-                    <tr>
-                      <th>Name</th>
-                      <td>{customerData.name}</td>
-                    </tr>
-                    <tr>
-                      <th>Organisation number</th>
-                      <td>{customerData.organisationNr}</td>
-                    </tr>
-                    <tr>
-                      <th>VAT number</th>
-                      <td>{customerData.vatNr}</td>
-                    </tr>
-                    <tr>
-                      <th>Reference</th>
-                      <td>{customerData.reference}</td>
-                    </tr>
-                    <tr>
-                      <th>Payment term</th>
-                      <td>{customerData.paymentTerm}</td>
-                    </tr>
-                    <tr>
-                      <th>Website</th>
-                      <td>{customerData.website}</td>
-                    </tr>
-                    <tr>
-                      <th>Email</th>
-                      <td>{customerData.email}</td>
-                    </tr>
-                    <tr>
-                      <th>Phone number</th>
-                      <td>{customerData.phoneNumber}</td>
-                    </tr>
-                  </tbody>
-                </>
-              )}
-            </table>
+              <div className="card-body">
+                <table className="table table-bordered table-striped">
+                  {customerData && (
+                    <>
+                      <tbody key={customerData.id}>
+                        <tr>
+                          <th>Name</th>
+                          <td>{customerData.name}</td>
+                        </tr>
+                        <tr>
+                          <th>Organisation number</th>
+                          <td>{customerData.organisationNr}</td>
+                        </tr>
+                        <tr>
+                          <th>VAT number</th>
+                          <td>{customerData.vatNr}</td>
+                        </tr>
+                        <tr>
+                          <th>Reference</th>
+                          <td>{customerData.reference}</td>
+                        </tr>
+                        <tr>
+                          <th>Payment term</th>
+                          <td>{customerData.paymentTerm}</td>
+                        </tr>
+                        <tr>
+                          <th>Website</th>
+                          <td>{customerData.website}</td>
+                        </tr>
+                        <tr>
+                          <th>Email</th>
+                          <td>{customerData.email}</td>
+                        </tr>
+                        <tr>
+                          <th>Phone number</th>
+                          <td>{customerData.phoneNumber}</td>
+                        </tr>
+                      </tbody>
+                    </>
+                  )}
+                </table>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="col-md-12 text-center">
+            <div className="mb-5">Loading...</div>
+            <Spinner animation="border" size="lg"></Spinner>
           </div>
-        </div>
+        )}
       </div>
 
       <Modal show={show} onHide={handleClose}>
