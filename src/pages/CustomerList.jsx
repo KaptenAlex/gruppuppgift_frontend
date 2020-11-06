@@ -55,10 +55,12 @@ export default function CustomerList() {
             <SignedInUser />
           </div>
           <div className="col-md-8">
-            <Title title="Customer List" />
-            <Link to="/create">
-              <Button btnText="Create new customer"></Button>
-            </Link>
+            <div className="d-flex justify-content-between row mb-3">
+              <Title title="Customer List" />
+              <Link to="/create">
+                <Button btnText="Create new customer"></Button>
+              </Link>
+            </div>
             {renderedCustomer && (
               <table className="table">
                 <thead>

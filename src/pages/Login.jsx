@@ -52,7 +52,7 @@ export default function Login(props) {
         }
         res.json().then((data) => {
           localStorage.setItem('token', data.token);
-          setToken(data.token);
+          setToken(localStorage.getItem('token'));
           props.history.push('/home');
         });
       });
