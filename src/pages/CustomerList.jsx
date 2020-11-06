@@ -4,12 +4,14 @@ import SignedInUser from '../components/SignedInUser';
 import Title from './../components/Title';
 import Button from './../components/Button';
 import { Link } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const API_URL = `${ROOT_URL}api/v1/`;
 
 export default function CustomerList() {
   const [customerList, setCustomerList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   function getToken() {
     return localStorage.getItem('token');
@@ -25,9 +27,9 @@ export default function CustomerList() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.results);
         setCustomerList(data.results);
         console.log(customerList);
+        setLoading(true);
       });
   }
 
@@ -50,32 +52,39 @@ export default function CustomerList() {
   return (
     <>
       <div className="container">
-        <div className="row">
-          <div className="col-md-4">
-            <SignedInUser />
-          </div>
-          <div className="col-md-8">
-            <div className="d-flex justify-content-between row mb-3">
-              <Title title="Customer List" />
-              <Link to="/create">
-                <Button btnText="Create new customer"></Button>
-              </Link>
+        {loading ? (
+          <div className="row">
+            <div className="col-md-4">
+              <SignedInUser />
             </div>
-            {renderedCustomer && (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone Number</th>
-                  </tr>
-                </thead>
-                <tbody>{renderedCustomer}</tbody>
-              </table>
-            )}
+            <div className="col-md-8">
+              <div className="d-flex justify-content-between row mb-3">
+                <Title title="Customer List" />
+                <Link to="/create">
+                  <Button btnText="Create new customer"></Button>
+                </Link>
+              </div>
+              {renderedCustomer && (
+                <table className="table table-hover">
+                  <thead className="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Phone Number</th>
+                    </tr>
+                  </thead>
+                  <tbody>{renderedCustomer}</tbody>
+                </table>
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="col-md-12 text-center">
+            <div className="mb-5">Loading...</div>
+            <Spinner animation="border" size="lg"></Spinner>
+          </div>
+        )}
       </div>
     </>
   );

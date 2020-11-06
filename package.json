@@ -11,6 +11,7 @@
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
     "react-alerts-plus": "^1.0.0",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
     "react-flash-message": "^1.0.4",
     "react-router-dom": "^5.2.0",
