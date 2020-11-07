@@ -9,9 +9,11 @@ import UserDatakit from '../data/UserDatakit';
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const API_URL = `${ROOT_URL}api/v1/`;
 
-export default function CustomerList() {
+export default function CustomerList(props) {
+  console.log(props);
   const [customerList, setCustomerList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(null);
   const userDataKit = new UserDatakit();
 
   function getCustomerList() {
@@ -33,6 +35,12 @@ export default function CustomerList() {
     if (userDataKit.getSessionToken() !== null) {
       getCustomerList();
     }
+    if (props.location.state !== null) {
+      setAlertMsg(props.location.state);
+    }
+    setTimeout(() => {
+      setAlertMsg(null);
+    }, 1500);
   }, []);
 
   const renderedCustomer = customerList.map((customer, index) => {
@@ -57,6 +65,22 @@ export default function CustomerList() {
               <SignedInUser />
             </div>
             <div className="col-md-8">
+              {alertMsg &&
+                Object.entries(alertMsg).map((msg) => {
+                  if (msg[0] === 'successMsg') {
+                    return (
+                      <div className="alert alert-success" role="alert">
+                        {msg[1]}
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="alert alert-danger" role="alert">
+                        {msg[1]}
+                      </div>
+                    );
+                  }
+                })}
               <div className="d-flex justify-content-between row mb-3">
                 <Title title="Customer List" />
                 <Link to="/create">

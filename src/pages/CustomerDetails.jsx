@@ -10,7 +10,6 @@ export const CustomerDetails = (props) => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [successMsg, setSccessMsg] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -21,7 +20,7 @@ export const CustomerDetails = (props) => {
   const API_URL = `${ROOT_URL}api/v1/customers/${ID}/`;
   const userDataKit = new UserDatakit();
 
-  function fetchCustomerDetails(id) {
+  function fetchCustomerDetails() {
     fetch(API_URL, {
       headers: {
         'Content-Type': 'application/json',
@@ -34,6 +33,7 @@ export const CustomerDetails = (props) => {
         setLoading(true);
       });
   }
+  /* VG: Delete customer */
   function deleteCustomer() {
     fetch(API_URL, {
       method: 'DELETE',
@@ -44,12 +44,15 @@ export const CustomerDetails = (props) => {
     }).then((res) => {
       if (res.status === 204) {
         setShow(false);
-        props.history.push('/home');
+        props.history.push({
+          pathname: '/home',
+          state: { deleteMsg: 'User Deleted' },
+        });
       }
       return;
     });
   }
-
+  /* VG: Edit customer details */
   function editCustomer() {
     const payload = {
       name: customerData.name,
@@ -61,7 +64,6 @@ export const CustomerDetails = (props) => {
       email: customerData.email,
       phoneNumber: customerData.phoneNumber,
     };
-    console.log(payload);
 
     fetch(API_URL, {
       method: 'PUT',
@@ -73,7 +75,10 @@ export const CustomerDetails = (props) => {
     }).then((res) => {
       if (res.status === 200) {
         setEdit(false);
-        setSccessMsg('User Edited');
+        props.history.push({
+          pathname: '/home',
+          state: { successMsg: 'User Edited' },
+        });
       }
       return;
     });
@@ -94,11 +99,6 @@ export const CustomerDetails = (props) => {
   return (
     <>
       <div className="container">
-        {successMsg && (
-          <div className="alert alert-success mb-3" role="alert">
-            {successMsg}{' '}
-          </div>
-        )}
         {loading ? (
           <>
             <div className="row  justify-content-end mr-2">

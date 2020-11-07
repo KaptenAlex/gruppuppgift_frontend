@@ -21,7 +21,6 @@ const StyledContainer = styled.div`
 `;
 
 export default function CustomerCreate(props) {
-
   const [validVatNr, setValidVatNr] = useState(true);
   const [info, setInfo] = useState({
     name: '',
@@ -45,12 +44,12 @@ export default function CustomerCreate(props) {
   function createCustomer(event) {
     event.preventDefault();
     const controlVatNrInputRegExp = /(SE)\d{10}$/;
-
+    /* VG: Validera så att detta fält innehåller "SE" och där efter 10 siffror */
     if (controlVatNrInputRegExp.test(info.vatNr) == false) {
-      setValidVatNr(false)
+      setValidVatNr(false);
       return;
     } else {
-      setValidVatNr(true)
+      setValidVatNr(true);
     }
 
     const payload = {
@@ -77,7 +76,10 @@ export default function CustomerCreate(props) {
         if (res.status !== 201) {
           return;
         }
-        props.history.push('/home');
+        props.history.push({
+          pathname: '/home',
+          state: { successMsg: 'User Created' },
+        });
       });
     } catch (err) {
       console.log(err);
@@ -169,13 +171,13 @@ export default function CustomerCreate(props) {
               type="text"
             />
           </div>
-          {!validVatNr &&
+          {!validVatNr && (
             <div className="row justify-content-center pt-2">
               <div className="alert alert-danger">
                 VatNr must start with "SE" and end with 10 digits
               </div>
             </div>
-          }
+          )}
         </StyledContainer>
         <div className="text-center mb-5">
           <Button btnText="Create" width="50%" color="" />

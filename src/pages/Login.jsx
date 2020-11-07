@@ -64,7 +64,7 @@ export default function Login(props) {
     setEmail('');
     setPassword('');
   }
-
+  /* VG*Aktiveraanvändaren */
   function activateAccount() {
     if (props.location.search !== '') {
       let params = queryString.parse(props.location.search);
@@ -87,17 +87,13 @@ export default function Login(props) {
           'Content-Type': 'application/json',
         },
       }).then((res) => {
-        console.log(res);
         if (res.status !== 201) {
-          console.log(res);
           console.log(
             'Looks like there was a problem. Status Code: ' + res.status
           );
           return;
         }
-        res.json().then((data) => {
-          props.history.push('/login');
-        });
+        props.history.push('/login');
       });
     } catch (err) {
       console.log(err);

@@ -6,7 +6,7 @@ export default class ProtectedRoute extends React.Component {
     const Component = this.props.component;
     const isAuthenticated = localStorage.getItem('token');
     return isAuthenticated ? (
-      <Component />
+      <Component {...this.props} />
     ) : (
       <Redirect to={{ pathname: '/login' }} />
     );

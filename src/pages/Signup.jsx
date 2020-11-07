@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import Title from '../components/Title';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const SIGNUP_URL = `${ROOT_URL}auth/users/`;
@@ -11,12 +11,31 @@ const SIGNUP_URL = `${ROOT_URL}auth/users/`;
 const StyledWindow = styled.div`
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 50%;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin-bottom: 20px;
 `;
 
+/* VG*inherits styled components */
+
+const FormInput = styled(Input)`
+  background: none;
+  background-color: white;
+  color: grey;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 90%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid grey;
+  margin: 25px 0 0 30px;
+  &:focus {
+    outline: none;
+  }
+`;
+
+/* VG*Skapaennyanvändare */
 export default function Signup() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -85,7 +104,7 @@ export default function Signup() {
             {successMsg}{' '}
           </div>
         )}
-        <Input
+        <FormInput
           type="text"
           name="firstName"
           value={firstName}
@@ -93,7 +112,7 @@ export default function Signup() {
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
-        <Input
+        <FormInput
           type="text"
           name="lastName"
           value={lastName}
@@ -101,7 +120,7 @@ export default function Signup() {
           onChange={(e) => setLastName(e.target.value)}
           required
         />
-        <Input
+        <FormInput
           type="text"
           name="email"
           value={email}
@@ -109,7 +128,7 @@ export default function Signup() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <Input
+        <FormInput
           type="password"
           name="password"
           placeholder="Password"
@@ -117,7 +136,7 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <Input
+        <FormInput
           type="password"
           name="confirmPassword"
           placeholder="Confirm Password"
@@ -125,7 +144,7 @@ export default function Signup() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <Input
+        <FormInput
           type="organisationName"
           name="organisationName"
           placeholder="Organisation Name"
