@@ -50,7 +50,7 @@ export default function Signup() {
   function handleSubmit(e) {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setErrorMsg('Password dont match');
+      setErrorMsg({ msg: 'Password dont match' });
       return;
     }
     const payload = {
@@ -71,6 +71,9 @@ export default function Signup() {
         },
       }).then((res) => {
         if (res.status !== 201) {
+          res.json().then((data) => {
+            setErrorMsg(data);
+          });
           return;
         }
         res.json().then((data) => {
@@ -91,11 +94,15 @@ export default function Signup() {
     <StyledWindow className="container">
       <form onSubmit={handleSubmit}>
         <Title title="Sign Up" />
-        {errorMsg && (
-          <div className="alert alert-danger mb-3" role="alert">
-            {errorMsg}{' '}
-          </div>
-        )}
+        {errorMsg &&
+          Object.entries(errorMsg).map((msg) => {
+            console.log(msg);
+            return (
+              <div className="alert alert-danger mb-3" role="alert">
+                {msg[1]}
+              </div>
+            );
+          })}
 
         {successMsg && (
           <div className="alert alert-success mb-3" role="alert">

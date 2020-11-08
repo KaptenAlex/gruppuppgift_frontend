@@ -46,7 +46,7 @@ export const CustomerDetails = (props) => {
         setShow(false);
         props.history.push({
           pathname: '/home',
-          state: { deleteMsg: 'User Deleted' },
+          state: { deleteMsg: 'Customer Deleted' },
         });
       }
       return;
@@ -77,7 +77,7 @@ export const CustomerDetails = (props) => {
         setEdit(false);
         props.history.push({
           pathname: '/home',
-          state: { successMsg: 'User Edited' },
+          state: { successMsg: 'Customer Edited' },
         });
       }
       return;

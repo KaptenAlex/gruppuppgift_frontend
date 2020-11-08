@@ -78,7 +78,7 @@ export default function CustomerCreate(props) {
         }
         props.history.push({
           pathname: '/home',
-          state: { successMsg: 'User Created' },
+          state: { successMsg: 'Customer Created' },
         });
       });
     } catch (err) {
