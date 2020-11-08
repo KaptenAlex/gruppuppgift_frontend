@@ -10,7 +10,6 @@ const ROOT_URL = 'https://frebi.willandskill.eu/';
 const API_URL = `${ROOT_URL}api/v1/`;
 
 export default function CustomerList(props) {
-  console.log(props);
   const [customerList, setCustomerList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);

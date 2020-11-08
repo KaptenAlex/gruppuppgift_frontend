@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './../components/Input';
 import Title from './../components/Title';
 import Button from './../components/Button';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
-import UserContext from '../contexts/userContext';
 import UserDatakit from '../data/UserDatakit';
 
 const StyledWindow = styled.div`
@@ -29,7 +28,6 @@ export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
-  const { setToken } = useContext(UserContext);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -54,7 +52,6 @@ export default function Login(props) {
         }
         res.json().then((data) => {
           userDataKit.setSessionToken(data.token);
-          setToken(userDataKit.getSessionToken(data.token));
           props.history.push('/home');
         });
       });
@@ -87,7 +84,7 @@ export default function Login(props) {
           'Content-Type': 'application/json',
         },
       }).then((res) => {
-        if (res.status !== 201) {
+        if (res.status !== 204) {
           console.log(
             'Looks like there was a problem. Status Code: ' + res.status
           );
@@ -132,7 +129,7 @@ export default function Login(props) {
         />
         <Button type="submit" btnText="Log in" bgColor="#4CAF50" />
         <Link to="/signup">
-          <p>I do not have an account</p>
+          <p className="mt-3">I do not have an account</p>
         </Link>
       </form>
     </StyledWindow>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import CustomerList from './pages/CustomerList';
@@ -8,13 +8,21 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Signup from './pages/Signup';
 import UserContext from './contexts/userContext';
 import { CustomerDetails } from './pages/CustomerDetails';
+import UserDatakit from './data/UserDatakit';
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const userDataKit = new UserDatakit();
+
+  useEffect(() => {
+    if (userDataKit.getSessionToken() !== null) {
+      setCurrentUser(userDataKit.getSessionToken());
+    }
+  }, []);
 
   return (
     <div className="App">
-      <UserContext.Provider value={{ token, setToken }}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
         <Header />
         <Switch>
           <ProtectedRoute

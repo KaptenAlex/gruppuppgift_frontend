@@ -2,18 +2,20 @@ import React, { useContext } from 'react';
 import './header.style.scss';
 import { Link } from 'react-router-dom';
 import UserContext from '../../contexts/userContext';
+import { ReactComponent as Logo } from '../../assets/lego-head.svg';
 
 export default function Header() {
-  const { token, setToken } = useContext(UserContext);
-  console.log(token, 'TOKEN');
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   return (
     <div className="header">
       <div className="logo-container">
-        <i className="fa fa-gift"></i>
-        COOL-COMPANY
+        <Logo className="logo" />
       </div>
-      {token ? (
+      {currentUser ? (
         <div className="options">
+          <div className="option currentUser">
+            Welcome : {currentUser.firstName}
+          </div>
           <Link className="option" to="/home">
             <i className="fa fa-home mr-2"></i>
             Home
@@ -22,7 +24,7 @@ export default function Header() {
             className="option"
             onClick={() => {
               localStorage.removeItem('token');
-              setToken(null);
+              setCurrentUser(null);
             }}
           >
             Sign Out

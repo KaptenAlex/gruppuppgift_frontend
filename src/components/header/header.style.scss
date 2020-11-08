@@ -5,9 +5,9 @@
   justify-content: space-between;
   margin-bottom: 25px;
 
-  .logo-container i {
-    height: 100px;
-    width: 70px;
+  .logo-container {
+    height: 80%;
+    width: 90px;
     padding: 25px;
   }
   .options {
@@ -21,6 +21,9 @@
   .option {
     padding: 10px 15px;
     cursor: pointer;
+  }
+  .currentUser {
+    cursor: auto;
   }
   a {
     text-decoration: none;
