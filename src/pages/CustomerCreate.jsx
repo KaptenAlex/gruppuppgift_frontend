@@ -5,10 +5,12 @@ import styled from 'styled-components';
 import Button from './../components/Button';
 import Description from './../components/DescText';
 import UserDatakit from '../data/UserDatakit';
+import CustomerDataKit from '../data/CustomerDataKit';
 
 const ROOT_URL = 'https://frebi.willandskill.eu/';
 const CREATE_CUSTOMER_URL = `${ROOT_URL}api/v1/customers/`;
 const userDataKit = new UserDatakit();
+const customerDataKit = new CustomerDataKit();
 
 const StyledContainer = styled.div`
     width 60%;
@@ -43,9 +45,9 @@ export default function CustomerCreate(props) {
 
   function createCustomer(event) {
     event.preventDefault();
-    const controlVatNrInputRegExp = /(SE)\d{10}$/;
-    /* VG: Validera så att detta fält innehåller "SE" och där efter 10 siffror */
-    if (controlVatNrInputRegExp.test(info.vatNr) == false) {
+
+    /* VG: Validera så att detta fält innehåller "SE" och där efter 10 siffror */ 
+    if (customerDataKit.controlVatNrFormat(info.vatNr) == false) {
       setValidVatNr(false);
       return;
     } else {
