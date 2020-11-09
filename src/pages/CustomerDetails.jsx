@@ -4,8 +4,10 @@ import Button from './../components/Button';
 import Modal from 'react-bootstrap/Modal';
 import Input from '../components/Input';
 import Spinner from 'react-bootstrap/Spinner';
+import CustomerDataKit from '../data/CustomerDataKit';
 
 export const CustomerDetails = (props) => {
+  const [validVatNr, setValidVatNr] = useState(true);
   const [defaultCustomerData, setDefaultCustomerData] = useState(null);
   const [customerData, setCustomerData] = useState(null);
   const [show, setShow] = useState(false);
@@ -20,6 +22,8 @@ export const CustomerDetails = (props) => {
   const ROOT_URL = 'https://frebi.willandskill.eu/';
   const API_URL = `${ROOT_URL}api/v1/customers/${ID}/`;
   const userDataKit = new UserDatakit();
+  const customerDataKit = new CustomerDataKit();
+
 
   function fetchCustomerDetails() {
     fetch(API_URL, {
@@ -56,6 +60,15 @@ export const CustomerDetails = (props) => {
   }
   /* VG: Edit customer details */
   function editCustomer() {
+
+    /* VG: Validera så att fältet "vatNr" innehåller "SE" och där efter 10 siffror */
+    if (customerDataKit.controlVatNrFormat(customerData.vatNr) == false) {
+      setValidVatNr(false);
+      return;
+    } else {
+      setValidVatNr(true);
+    }
+
     const payload = {
       name: customerData.name,
       organisationNr: customerData.organisationNr,
@@ -268,6 +281,11 @@ export const CustomerDetails = (props) => {
                     </>
                   )}
                 </table>
+                {!validVatNr && (
+                  <div className="alert alert-danger">
+                    VatNr must start with "SE" and end with 10 digits
+                  </div>
+                )}
               </div>
             </div>
           </>

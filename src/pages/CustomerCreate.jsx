@@ -46,7 +46,7 @@ export default function CustomerCreate(props) {
   function createCustomer(event) {
     event.preventDefault();
 
-    /* VG: Validera så att detta fält innehåller "SE" och där efter 10 siffror */ 
+    /* VG: Validera så att fältet "vatNr" innehåller "SE" och där efter 10 siffror */ 
     if (customerDataKit.controlVatNrFormat(info.vatNr) == false) {
       setValidVatNr(false);
       return;
