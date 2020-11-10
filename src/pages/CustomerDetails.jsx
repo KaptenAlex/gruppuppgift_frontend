@@ -109,6 +109,7 @@ export const CustomerDetails = (props) => {
 
   function cancelEdit() {
     setEdit(false);
+    setValidVatNr(true);
     setCustomerData(defaultCustomerData);
   }
 
